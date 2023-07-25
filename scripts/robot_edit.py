@@ -6,7 +6,7 @@
 
 import sys                       
 sys.path.append('../scripts/')
-from ideal_robot import *
+from ideal_robot_edit import *
 from scipy.stats import expon, norm, uniform
 
 
