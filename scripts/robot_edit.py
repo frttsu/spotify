@@ -44,7 +44,7 @@ class Robot(IdealRobot):
         self.is_first = True
         self.const_nu = 0
         self.const_omega = 0
-        self.sensor_time = 2.0
+        self.sensor_time = 1.0
         
     def noise(self, pose, nu, omega, time_interval):
         self.distance_until_noise -= abs(nu)*time_interval + self.r*abs(omega)*time_interval
@@ -91,7 +91,7 @@ class Robot(IdealRobot):
             self.is_first = False
         else:
             obs = self.sensor.data(self.pose) if self.sensor else None
-            self.sensor_time = 2.0
+            self.sensor_time = 1.0
       
         nu, omega = self.agent.decision(obs)
         nu, omega = self.bias(nu,omega)

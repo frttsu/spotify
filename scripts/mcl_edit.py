@@ -93,9 +93,9 @@ class Mcl:    ###mlparticle（12〜18行目）
     def draw(self, ax, elems):  
         xs = [p.pose[0] for p in self.particles]
         ys = [p.pose[1] for p in self.particles]
-        vxs = [math.cos(p.pose[2])*p.weight*len(self.particles) for p in self.particles] #重みを要素に反映
-        vys = [math.sin(p.pose[2])*p.weight*len(self.particles) for p in self.particles]  #重みを要素に反映
-        elems.append(ax.quiver(xs, ys, vxs, vys,                                angles='xy', scale_units='xy', scale=1.5, color="blue", alpha=0.5)) #変更
+        vxs = [math.cos(p.pose[2])*p.weight*len(self.particles) 20 for p in self.particles] #重みを要素に反映
+        vys = [math.sin(p.pose[2])*p.weight*len(self.particles) 20 for p in self.particles]  #重みを要素に反映
+        elems.append(ax.quiver(xs, ys, vxs, vys,                                angles='xy', scale_units='xy', scale=20, color="blue", alpha=0.5)) #変更
 
 
 # In[4]:
@@ -109,7 +109,7 @@ class EstimationAgent(Agent):
         
         self.prev_nu = 0.0
         self.prev_omega = 0.0
-        self.sensor_time = 2
+        self.sensor_time = 1
         self.is_first = True
         
     def decision(self, observation=None): 
@@ -123,7 +123,7 @@ class EstimationAgent(Agent):
         self.estimator.draw(ax, elems)
         x, y, t = self.estimator.pose #以下追加
         s = "({:.2f}, {:.2f}, {})".format(x,y,int(t*180/math.pi)%360)
-        elems.append(ax.text(x, y+0.1, s, fontsize=8))
+        elems.append(ax.text(0, 220,s, fontsize=8))
 
 
 # In[5]:

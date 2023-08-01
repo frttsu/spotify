@@ -31,8 +31,8 @@ class World:
         fig = plt.figure(figsize=(4,4))
         ax = fig.add_subplot(111)
         ax.set_aspect('equal')             
-        ax.set_xlim(-5,5)                  
-        ax.set_ylim(-5,5) 
+        ax.set_xlim(-250,250)                  
+        ax.set_ylim(-250,250) 
         ax.set_xlabel("X",fontsize=10)                 
         ax.set_ylabel("Y",fontsize=10)                 
         elems = []
@@ -47,7 +47,7 @@ class World:
     def one_step(self, i, elems, ax):
         while elems: elems.pop().remove()
         time_str = "t = %.2f[s]" % (self.time_interval*i)
-        elems.append(ax.text(-4.4, 4.5, time_str, fontsize=10))
+        elems.append(ax.text(-245.4, 220, time_str, fontsize=10))
         for obj in self.objects:
             obj.draw(ax, elems)
             if hasattr(obj, "one_step"): obj.one_step(self.time_interval)    
@@ -59,7 +59,7 @@ class World:
 class IdealRobot:   
     def __init__(self, pose, agent=None, sensor=None, color="black"):    # 引数を追加
         self.pose = pose
-        self.r = 0.2  
+        self.r = 10  
         self.color = color 
         self.agent = agent
         self.poses = [pose]
@@ -121,7 +121,7 @@ class Landmark:
         self.id = None
         
     def draw(self, ax, elems):
-        c = ax.scatter(self.pos[0], self.pos[1], s=100, marker="*", label="landmarks", color="orange")
+        c = ax.scatter(self.pos[0], self.pos[1], s=30, marker="*", label="landmarks", color="orange")
         elems.append(c)
         elems.append(ax.text(self.pos[0], self.pos[1], "id:" + str(self.id), fontsize=10))
         
@@ -165,7 +165,7 @@ class Map:
 
 
 class IdealCamera:
-    def __init__(self, env_map,                  distance_range=(0.5, 6.0),
+    def __init__(self, env_map,                  distance_range=(0.5, 100),
                  direction_range=(-math.pi/3, math.pi/3)):
         self.map = env_map
         self.lastdata = []
@@ -177,7 +177,7 @@ class IdealCamera:
         if polarpos is None:
             return False
         
-        return self.distance_range[0] <= polarpos[0] <= self.distance_range[1]                 and self.direction_range[0] <= polarpos[1] <= self.direction_range[1]
+        return self.direction_range[0] <= polarpos[1] <= self.direction_range[1]
         
     def data(self, cam_pose):
         observed = []
