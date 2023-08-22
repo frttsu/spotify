@@ -91,12 +91,12 @@ class Robot(IdealRobot):
             self.is_first = False
         else:
             obs = self.sensor.data(self.pose) if self.sensor else None
+            print("obs = " ,obs)
             self.sensor_time = 1.0
-      
+
         nu, omega = self.agent.decision(obs)
         nu, omega = self.bias(nu,omega)
         nu, omega = self.stuck(nu,omega,time_interval)
-        print("b")
         self.pose = self.state_transition(nu,omega,time_interval, self.pose)
         self.pose = self.noise(self.pose, nu,omega, time_interval)
         self.pose = self.kidnap(self.pose, time_interval)
@@ -106,8 +106,8 @@ class Robot(IdealRobot):
 
 class Camera(IdealCamera): ###noisesim_occlusion### 
     def __init__(self, env_map,
-                 distance_range=(0.5, 6.0),
-                 direction_range=(-math.pi/3, math.pi/3),
+                 distance_range=(0.5, 300),
+                 direction_range=(-math.pi, math.pi),
                  distance_noise_rate=0.1, direction_noise=math.pi/90,
                  distance_bias_rate_stddev=0.1, direction_bias_stddev=math.pi/90,
                  phantom_prob=0.0, phantom_range_x=(-5.0,5.0), phantom_range_y=(-5.0,5.0),
@@ -162,7 +162,9 @@ class Camera(IdealCamera): ###noisesim_occlusion###
             z = self.phantom(cam_pose, z) 
             z = self.occlusion(z) #追加
             z = self.oversight(z)
+            #print("a", self.visible(z))
             if self.visible(z):
+                print("b")
                 z = self.bias(z)
                 z = self.noise(z)  
                 observed.append((z, lm.id))

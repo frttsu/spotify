@@ -32,7 +32,9 @@ class World:
         ax = fig.add_subplot(111)
         ax.set_aspect('equal')             
         ax.set_xlim(-250,250)                  
-        ax.set_ylim(-250,250) 
+        ax.set_ylim(-250,250)
+        #ax.set_xlim(-5,5)
+        #ax.set_ylim(-5,5)
         ax.set_xlabel("X",fontsize=10)                 
         ax.set_ylabel("Y",fontsize=10)                 
         elems = []
@@ -48,6 +50,7 @@ class World:
         while elems: elems.pop().remove()
         time_str = "t = %.2f[s]" % (self.time_interval*i)
         elems.append(ax.text(-245.4, 220, time_str, fontsize=10))
+        #elems.append(ax.text(-4.4, 4.5, time_str,fontsize=10))
         for obj in self.objects:
             obj.draw(ax, elems)
             if hasattr(obj, "one_step"): obj.one_step(self.time_interval)    
@@ -165,8 +168,7 @@ class Map:
 
 
 class IdealCamera:
-    def __init__(self, env_map,                  distance_range=(0.5, 100),
-                 direction_range=(-math.pi/3, math.pi/3)):
+    def __init__(self, env_map, distance_range=(0.5, 300), direction_range=(-math.pi, math.pi)):
         self.map = env_map
         self.lastdata = []
         
@@ -176,8 +178,12 @@ class IdealCamera:
     def visible(self, polarpos):  # ランドマークが計測できる条件
         if polarpos is None:
             return False
-        
-        return self.direction_range[0] <= polarpos[1] <= self.direction_range[1]
+        print(polarpos[0])
+        print(self.distance_range[0])
+        print(self.distance_range[1])
+        print(self.distance_range[0] <= polarpos[0] and polarpos[0] <= self.distance_range[1])
+    
+        return self.distance_range[0] <= polarpos[0] <= self.distance_range[1]                 and self.direction_range[0] <= polarpos[1] <= self.direction_range[1]
         
     def data(self, cam_pose):
         observed = []

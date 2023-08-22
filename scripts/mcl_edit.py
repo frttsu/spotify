@@ -93,9 +93,9 @@ class Mcl:    ###mlparticle（12〜18行目）
     def draw(self, ax, elems):  
         xs = [p.pose[0] for p in self.particles]
         ys = [p.pose[1] for p in self.particles]
-        vxs = [math.cos(p.pose[2])*p.weight*len(self.particles) 20 for p in self.particles] #重みを要素に反映
-        vys = [math.sin(p.pose[2])*p.weight*len(self.particles) 20 for p in self.particles]  #重みを要素に反映
-        elems.append(ax.quiver(xs, ys, vxs, vys,                                angles='xy', scale_units='xy', scale=20, color="blue", alpha=0.5)) #変更
+        vxs = [math.cos(p.pose[2])*p.weight*len(self.particles) * 800 for p in self.particles] #重みを要素に反映
+        vys = [math.sin(p.pose[2])*p.weight*len(self.particles) * 800 for p in self.particles]  #重みを要素に反映
+        elems.append(ax.quiver(xs, ys, vxs, vys,                                angles='xy', scale_units='xy',color="orange", alpha=0.5)) #変更
 
 
 # In[4]:
@@ -115,7 +115,7 @@ class EstimationAgent(Agent):
     def decision(self, observation=None): 
         self.estimator.motion_update(self.prev_nu, self.prev_omega, self.time_interval)
         self.prev_nu, self.prev_omega = self.nu, self.omega
-        if observation != [] :
+        if observation:
             self.estimator.observation_update(observation)
         return self.nu, self.omega
         
