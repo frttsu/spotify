@@ -15,7 +15,7 @@ from scipy.stats import expon, norm, uniform
 
 class Robot(IdealRobot):
         
-    def __init__(self, pose, agent=None, sensor=None, color="black",                            noise_per_meter=5, noise_std=math.pi/60, bias_rate_stds=(0.1,0.1),                            expected_stuck_time=1e100, expected_escape_time = 1e-100,                           expected_kidnap_time=1e100, kidnap_range_x = (-5.0,5.0), kidnap_range_y = (-5.0,5.0)): #追加
+    def __init__(self, pose, agent=None, sensor=None, color="black",                            noise_per_meter=5, noise_std=math.pi/180, bias_rate_stds=(0.1,0.1),                            expected_stuck_time=1e100, expected_escape_time = 1e-100,                           expected_kidnap_time=1e100, kidnap_range_x = (-5.0,5.0), kidnap_range_y = (-5.0,5.0)): #追加
         super().__init__(pose, agent, sensor, color)
         #noise に必要な変数
         #大域でグラフを生成しないと関数の呼び出しごとに関数を生成することになる
@@ -158,16 +158,19 @@ class Camera(IdealCamera): ###noisesim_occlusion###
     def data(self, cam_pose):
         observed = []
         for lm in self.map.landmarks:
+            print("camera data obj=",lm.pos)
+            print("camera data cam=", cam_pose)
             z = self.observation_function(cam_pose, lm.pos)
             z = self.phantom(cam_pose, z) 
             z = self.occlusion(z) #追加
             z = self.oversight(z)
             #print("a", self.visible(z))
             if self.visible(z):
-                print("b")
+                #print("b")
                 z = self.bias(z)
                 z = self.noise(z)  
                 observed.append((z, lm.id))
+                
             
         self.lastdata = observed 
         return observed

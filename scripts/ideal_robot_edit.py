@@ -178,10 +178,10 @@ class IdealCamera:
     def visible(self, polarpos):  # ランドマークが計測できる条件
         if polarpos is None:
             return False
-        print(polarpos[0])
-        print(self.distance_range[0])
-        print(self.distance_range[1])
-        print(self.distance_range[0] <= polarpos[0] and polarpos[0] <= self.distance_range[1])
+        #print(polarpos[0])
+        #print(self.distance_range[0])
+        #print(self.distance_range[1])
+        #print(self.distance_range[0] <= polarpos[0] and polarpos[0] <= self.distance_range[1])
     
         return self.distance_range[0] <= polarpos[0] <= self.distance_range[1]                 and self.direction_range[0] <= polarpos[1] <= self.direction_range[1]
         
@@ -197,6 +197,8 @@ class IdealCamera:
     
     @classmethod
     def observation_function(cls, cam_pose, obj_pos):
+        print("obj=",obj_pos)
+        print("cam=",cam_pose)
         diff = obj_pos[0:2]- cam_pose[0:2]
         phi = math.atan2(diff[1], diff[0]) - cam_pose[2]
         while phi >= np.pi: phi -= 2*np.pi

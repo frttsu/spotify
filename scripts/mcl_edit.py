@@ -11,12 +11,11 @@ from scipy.stats import multivariate_normal
 import random #追加
 import copy
 
-
 # In[2]:
 
 
 class Particle: 
-    def __init__(self, init_pose, weight):
+    def __init__(self, init_pose, weight, ):
         self.pose = init_pose
         self.weight = weight
         
@@ -66,8 +65,11 @@ class Mcl:    ###mlparticle（12〜18行目）
         for p in self.particles: p.motion_update(nu, omega, time, self.motion_noise_rate_pdf)
             
     def observation_update(self, observation): 
+        i = 0
         for p in self.particles:
             p.observation_update(observation, self.map, self.distance_dev_rate, self.direction_dev) 
+            print(i)
+            i = i + 1
         self.set_ml() #リサンプリング前に実行
         self.resampling() 
             
